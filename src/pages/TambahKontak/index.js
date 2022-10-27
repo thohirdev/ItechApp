@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text, Alert} from 'react-native';
 import {InputData} from '../../components';
-import FIREBASE from '../../config/FIREBASE'
+import FIREBASE from '../../config/FIREBASE';
 
 export default class TambahKontak extends Component {
   constructor(props) {
@@ -21,30 +21,26 @@ export default class TambahKontak extends Component {
   };
 
   onSubmit = () => {
-    if(this.state.nama && this.state.nomorHP && this.state.alamat) {
-      
+    if (this.state.nama && this.state.nomorHP && this.state.alamat) {
       const kontakReferensi = FIREBASE.database().ref('Kontak');
       const kontak = {
         nama: this.state.nama,
         nomorHP: this.state.nomorHP,
-        alamat: this.state.alamat
-      }
+        alamat: this.state.alamat,
+      };
 
       kontakReferensi
         .push(kontak)
-        .then((data) => {
+        .then(data => {
           Alert.alert('Sukses', 'Kontak Tersimpan');
           this.props.navigation.replace('Home');
         })
-        .catch((error) => {
-          console.log("Error : ", error);
-        })
-
-
-    }else {
+        .catch(error => {
+          console.log('Error : ', error);
+        });
+    } else {
       Alert.alert('Error', 'Nama, Nomor HP, dan Alamat wajib diisi');
     }
-    
   };
 
   render() {

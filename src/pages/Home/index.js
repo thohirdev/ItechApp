@@ -22,7 +22,7 @@ export default class Home extends Component {
   ambilData = () => {
     FIREBASE.database()
       .ref('Kontak')
-      .once('value', (querySnapShot) => {
+      .once('value', querySnapShot => {
         let data = querySnapShot.val() ? querySnapShot.val() : {};
         let kontakItem = {...data};
 
@@ -33,7 +33,7 @@ export default class Home extends Component {
       });
   };
 
-  removeData = (id) => {
+  removeData = id => {
     Alert.alert(
       'Info',
       'Anda yakin akan menghapus Data Kontak ?',
@@ -69,7 +69,7 @@ export default class Home extends Component {
 
         <View style={styles.listKontak}>
           {kontaksKey.length > 0 ? (
-            kontaksKey.map((key) => (
+            kontaksKey.map(key => (
               <CardKontak
                 key={key}
                 kontakItem={kontaks[key]}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text, Alert} from 'react-native';
 import {InputData} from '../../components';
-import FIREBASE from '../../config/FIREBASE'
+import FIREBASE from '../../config/FIREBASE';
 
 export default class EditKontak extends Component {
   constructor(props) {
@@ -16,15 +16,15 @@ export default class EditKontak extends Component {
 
   componentDidMount() {
     FIREBASE.database()
-      .ref('Kontak/'+ this.props.route.params.id)
-      .once('value', (querySnapShot) => {
+      .ref('Kontak/' + this.props.route.params.id)
+      .once('value', querySnapShot => {
         let data = querySnapShot.val() ? querySnapShot.val() : {};
         let kontakItem = {...data};
 
         this.setState({
           nama: kontakItem.nama,
           nomorHP: kontakItem.nomorHP,
-          alamat: kontakItem.alamat
+          alamat: kontakItem.alamat,
         });
       });
   }
@@ -36,31 +36,29 @@ export default class EditKontak extends Component {
   };
 
   onSubmit = () => {
-    if(this.state.nama && this.state.nomorHP && this.state.alamat) {
-      
-      const kontakReferensi = FIREBASE.database().ref('Kontak/'+ this.props.route.params.id);
+    if (this.state.nama && this.state.nomorHP && this.state.alamat) {
+      const kontakReferensi = FIREBASE.database().ref(
+        'Kontak/' + this.props.route.params.id,
+      );
 
       const kontak = {
         nama: this.state.nama,
         nomorHP: this.state.nomorHP,
-        alamat: this.state.alamat
-      }
+        alamat: this.state.alamat,
+      };
 
       kontakReferensi
         .update(kontak)
-        .then((data) => {
+        .then(data => {
           Alert.alert('Sukses', 'Kontak Terupdate');
           this.props.navigation.replace('Home');
         })
-        .catch((error) => {
-          console.log("Error : ", error);
-        })
-
-
-    }else {
+        .catch(error => {
+          console.log('Error : ', error);
+        });
+    } else {
       Alert.alert('Error', 'Nama, Nomor HP, dan Alamat wajib diisi');
     }
-    
   };
 
   render() {
